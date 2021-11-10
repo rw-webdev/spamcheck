@@ -20,6 +20,7 @@ logs
 
 # distrubution files
 dist
+*.egg-info
 
 # IDE files
 *.iml
