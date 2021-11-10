@@ -1,0 +1,45 @@
+*.orig
+*.pyc
+*.db
+*.dump
+.hg
+.hgignore
+.hg_archival.txt
+**/site_media/
+local_settings.py
+.settings/*
+.DS_Store
+.sass-cache
+.scss-cache
+.build-cache
+cache
+node_modules
+bower_components
+error_log
+logs
+
+# distrubution files
+dist
+
+# IDE files
+*.iml
+.idea
+atlassian-ide-plugin.xml
+
+# no media files!
+*.pdf
+*.zip
+*.log
+*.mp4
+*.mp3
+*.webm
+*.ogv
+*.wmv
+*.mov
+*.avi
+*.rm
+*.mpg
+*.mpeg
+*.asf
+
+package-lock.json

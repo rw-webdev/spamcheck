@@ -1,0 +1,10 @@
+CHANGES.txt
+MANIFEST.in
+README.md
+setup.py
+spamcheck/__init__.py
+spamcheck/util.py
+spamcheck.egg-info/PKG-INFO
+spamcheck.egg-info/SOURCES.txt
+spamcheck.egg-info/dependency_links.txt
+spamcheck.egg-info/top_level.txt
