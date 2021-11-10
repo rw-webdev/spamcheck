@@ -33,3 +33,15 @@ def is_in_spam_list(email_address=None, ip_address=None):
         return True
 
     return False
+
+
+def visitor_ip_address(request):
+    """Get visitor IP address"""
+
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip

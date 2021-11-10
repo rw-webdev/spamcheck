@@ -11,14 +11,18 @@ SPAM_IPS = ['100.90.80.1']  # block from IP address
 
 ###Usage
 ```python
-from spamcheck.util import is_in_spam_list
+from spamcheck.util import is_in_spam_list, visitor_ip_address
 
-print(is_in_spam_list('mary@dirt.com'))
+'''Obtain IP address (optional)'''
+ip_address = visitor_ip_address(request)
+
+'''Run checks'''
+print(is_in_spam_list('mary@dirt.com', ip_address))
 # >> True
-print(is_in_spam_list('joedirt@gmail.com'))
+print(is_in_spam_list('joedirt@gmail.com', ip_address))
 # >> True
-print(is_in_spam_list('joe@DIRT.com'))
+print(is_in_spam_list('joe@DIRT.com', ip_address))
 # >> True
-print(is_in_spam_list('thom@radiohead.com'))
+print(is_in_spam_list('thom@radiohead.com', ip_address))
 # >> False
 ```
