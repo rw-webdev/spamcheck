@@ -1,6 +1,6 @@
 import logging
 
-from django.conf import settings
+from .spamlist import spam_domains, spam_emails, spam_ips
 
 logger = logging.getLogger(__name__)
 
@@ -12,10 +12,6 @@ def is_in_spam_list(email_address=None, ip_address=None):
     :param str ip_address: IP address
     :return: bool
     """
-
-    spam_domains = getattr(settings, 'SPAM_DOMAINS', [])
-    spam_emails = getattr(settings, 'SPAM_EMAILS', [])
-    spam_ips = getattr(settings, 'SPAM_IPS', [])
 
     '''Check email against spam domains/addresses'''
     if email_address and '@' in email_address:
