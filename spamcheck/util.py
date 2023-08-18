@@ -1,6 +1,9 @@
+import json
 import logging
 
-from .spamlist import spam_domains, spam_emails, spam_ips
+from django.conf import settings
+
+import boto3
 
 logger = logging.getLogger(__name__)
 
@@ -13,18 +16,20 @@ def is_in_spam_list(email_address=None, ip_address=None):
     :return: bool
     """
 
+    blacklist = fetch_blacklist()
+
     '''Check email against spam domains/addresses'''
     if email_address and '@' in email_address:
         email_address = email_address.lower()
-        if email_address[email_address.index('@') + 1:] in spam_domains:
+        if email_address[email_address.index('@') + 1:] in blacklist.get('spam_domains', []):
             logger.warning('ContactUsForm Spammer (Domain): %s' % email_address)
             return True
-        if email_address in spam_emails:
+        if email_address in blacklist.get('spam_emails', []):
             logger.warning('ContactUsForm Spammer (Email): %s' % email_address)
             return True
 
     '''Check IP against spam IPs'''
-    if ip_address and ip_address in spam_ips:
+    if ip_address and ip_address in blacklist.get('spam_ips', []):
         logger.warning('ContactUsForm Spammer (IP): %s' % ip_address)
         return True
 
@@ -41,3 +46,26 @@ def visitor_ip_address(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+
+def fetch_blacklist():
+    session = boto3.session.Session()
+    try:
+        client = session.client(
+            's3', region_name='sfo2',
+            endpoint_url=settings.SPAMLIST_ENDPOINT_URL,
+            aws_access_key_id=settings.SPAMLIST_KEY_ID,
+            aws_secret_access_key=settings.SPAMLIST_SECRET_KEY)
+    except Exception as e:
+        logger.error(e)
+        return {}
+
+    try:
+        '''Fetch the file content'''
+        response = client.get_object(
+            Bucket=settings.SPAMLIST_BUCKET_NAME, Key='email-blacklist/blacklist.json')
+        file_content = response['Body'].read().decode('utf-8')
+        return json.loads(file_content)
+    except Exception as e:
+        logger.error(e)
+    return {}
