@@ -1,3 +1,4 @@
+v0.4.0, Aug 18, 2023 -- Converted to use centralized blacklist json file.
 v0.3.0, Jun 20, 2022 -- Update spam list.
 v0.2.0, Nov 24, 2021 -- Add spamlist data to package.
 v0.1.0, Nov 10, 2021 -- Initial release.
