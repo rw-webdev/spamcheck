@@ -4,9 +4,11 @@ SpamCheck is a tool to ignore emails by domain, email, or ip.
 
 ###  Django settings
 ```python
-SPAM_DOMAINS = ['dirt.com']  # block entire domain
-SPAM_EMAILS = ['joedirt@gmail.com']  # block specific email
-SPAM_IPS = ['100.90.80.1']  # block from IP address
+SPAMLIST_KEY_ID = ''  # S3/Spaces Key
+SPAMLIST_SECRET_KEY = ''  # S3/Spaces Secret
+SPAMLIST_BUCKET_NAME = ''  # S3/Spaces Bucket Name
+SPAMLIST_REGION_NAME = 'sfo2'
+SPAMLIST_ENDPOINT_URL = 'https://sfo2.digitaloceanspaces.com'
 ```
 
 ###Usage
