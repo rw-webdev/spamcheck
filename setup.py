@@ -25,5 +25,5 @@ setup(
     # packages=find_packages(),
     packages=['spamcheck'],
     include_package_data=True,
-    install_requires=['boto'],
+    install_requires=['boto3>=1.14.60'],
 )
