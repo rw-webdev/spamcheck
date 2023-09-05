@@ -1,3 +1,6 @@
+import json
+import os
+
 from django.test import TestCase
 from unittest.mock import patch
 
@@ -44,3 +47,14 @@ class TestSpamCheck(TestCase):
     def test_no_input(self, mock_fetch_blacklist):
         mock_fetch_blacklist.return_value = self.mocked_blacklist
         self.assertFalse(is_in_spam_list())
+
+    def test_can_parse_json(self):
+        """Make sure no issues parsing the blacklist json file"""
+
+        json_data = open(f'{os.path.dirname(os.path.abspath(__file__))}/blacklist.json')
+        blacklist_data = json.load(json_data)
+        json_data.close()
+
+        self.assertTrue('spam_domains' in blacklist_data)
+        self.assertTrue('spam_emails' in blacklist_data)
+        self.assertTrue('spam_ips' in blacklist_data)
