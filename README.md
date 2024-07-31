@@ -13,18 +13,21 @@ SPAMLIST_ENDPOINT_URL = 'https://sfo2.digitaloceanspaces.com'
 
 ###Usage
 ```python
-from spamcheck.util import is_in_spam_list, visitor_ip_address
-
-'''Obtain IP address (optional)'''
-ip_address = visitor_ip_address(request)
+from spamcheck import SpamCheck
+spamcheck = SpamCheck(request)
 
 '''Run checks'''
-print(is_in_spam_list('mary@dirt.com', ip_address))
+print(spamcheck.is_in_spam_list('mary@dirt.com'))
 # >> True
-print(is_in_spam_list('joedirt@gmail.com', ip_address))
+print(spamcheck.is_in_spam_list('joedirt@gmail.com'))
 # >> True
-print(is_in_spam_list('joe@DIRT.com', ip_address))
+print(spamcheck.is_in_spam_list('joe@DIRT.com'))
 # >> True
-print(is_in_spam_list('thom@radiohead.com', ip_address))
+print(spamcheck.is_in_spam_list('thom@radiohead.com'))
+# >> False
+
+print(spamcheck.has_spam_keywords('Message with a spammy keyword'))
+# >> True
+print(spamcheck.has_spam_keywords('A legit message'))
 # >> False
 ```
