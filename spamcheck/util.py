@@ -8,6 +8,19 @@ import boto3
 logger = logging.getLogger(__name__)
 
 
+def has_spam_keywords(email_body):
+    spam_keywords = [
+        "janitorial"
+    ]
+
+    # Check for spam keywords in the subject and body
+    for keyword in spam_keywords:
+        if keyword.lower() in email_body.lower():
+            return True
+
+    return False
+
+
 def is_in_spam_list(email_address=None, ip_address=None):
     """Check email or IP against spam lists if provided
 

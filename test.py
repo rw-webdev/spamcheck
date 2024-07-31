@@ -4,7 +4,7 @@ import os
 from django.test import TestCase
 from unittest.mock import patch
 
-from spamcheck.util import is_in_spam_list
+from spamcheck.util import is_in_spam_list, has_spam_keywords
 
 
 class TestSpamCheck(TestCase):
@@ -58,3 +58,24 @@ class TestSpamCheck(TestCase):
         self.assertTrue('spam_domains' in blacklist_data)
         self.assertTrue('spam_emails' in blacklist_data)
         self.assertTrue('spam_ips' in blacklist_data)
+
+    def test_has_spam_keywords_when_true(self):
+        """Test has_spam_keywords function when message contains spam"""
+
+        message = """
+         Hi there, I hope all is well. We specialize in providing janitorial services. 
+         Would you be interested in receiving a free estimate for your facility's 
+         janitorial needs? Kind regards, Charm 1-800-407-1377 (Look for me!)
+        """
+
+        self.assertTrue(has_spam_keywords(message))
+
+    def test_has_spam_keywords_when_false(self):
+        """Test has_spam_keywords function when message is valid"""
+
+        message = """
+         Hi there, I hope all is well. We are interested in a 1031 exchange!
+        """
+
+        self.assertFalse(has_spam_keywords(message))
+
