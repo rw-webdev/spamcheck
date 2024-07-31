@@ -30,10 +30,23 @@ class TestSpamCheck(TestCase):
 
         self.spamcheck = SpamCheck(mock_request)
 
-    # Test email domain is spam
-    def test_spam_domain(self):
-        self.assertTrue(self.spamcheck.is_in_spam_list(
-            email_address='user@spamydomain.com'))
+    # Test run all tests function w/ failing email
+    def test_fails_spamchecks_spam_email(self):
+        self.assertTrue(self.spamcheck.fails_spamchecks(
+            email_address='user@spamydomain.com',
+            email_body='A valid message'))
+
+    # Test run all tests function w/ failing keyword
+    def test_fails_spamchecks_spam_keyword(self):
+        self.assertTrue(self.spamcheck.fails_spamchecks(
+            email_address='good-user@valid-domain.com',
+            email_body='A spammy message containing the bad word "janitorial"'))
+
+    # Test run all tests function w/ passing data
+    def test_fails_spamchecks_passing(self):
+        self.assertFalse(self.spamcheck.fails_spamchecks(
+            email_address='good-user@valid-domain.com',
+            email_body='A valid message'))
 
     # Test full email address is spam
     def test_spam_email(self):

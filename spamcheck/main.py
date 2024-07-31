@@ -16,11 +16,15 @@ class SpamCheck:
         self.blacklist = fetch_blacklist()
         self.ip_address = visitor_ip_address(request)
 
+    def fails_spamchecks(self, email_address, email_body):
+        return self.is_in_spam_list(email_address) or self.has_spam_keywords(email_body)
+
     def has_spam_keywords(self, email_body):
 
         # Check for spam keywords in the subject and body
         for keyword in self.blacklist.get('spam_keywords', []):
             if keyword.lower() in email_body.lower():
+                logger.warning('Form Spammer (Keyword): %s' % keyword.lower())
                 return True
         return False
 
@@ -35,15 +39,15 @@ class SpamCheck:
         if email_address and '@' in email_address:
             email_address = email_address.lower()
             if email_address[email_address.index('@') + 1:] in self.blacklist.get('spam_domains', []):
-                logger.warning('ContactUsForm Spammer (Domain): %s' % email_address)
+                logger.warning('Form Spammer (Domain): %s' % email_address)
                 return True
             if email_address in self.blacklist.get('spam_emails', []):
-                logger.warning('ContactUsForm Spammer (Email): %s' % email_address)
+                logger.warning('Form Spammer (Email): %s' % email_address)
                 return True
 
         '''Check IP against spam IPs'''
         if self.ip_address and self.ip_address in self.blacklist.get('spam_ips', []):
-            logger.warning('ContactUsForm Spammer (IP): %s' % self.ip_address)
+            logger.warning('Form Spammer (IP): %s' % self.ip_address)
             return True
 
         return False
