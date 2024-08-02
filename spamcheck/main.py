@@ -1,7 +1,10 @@
 import json
 import logging
 
-from django.conf import settings
+try:
+    from django.conf import settings
+except ImportError:
+    settings = None
 
 import boto3
 
