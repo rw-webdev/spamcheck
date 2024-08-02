@@ -3,10 +3,9 @@ import logging
 
 try:
     from django.conf import settings
+    import boto3
 except ImportError:
     settings = None
-
-import boto3
 
 logger = logging.getLogger(__name__)
 
